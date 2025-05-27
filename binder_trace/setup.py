@@ -13,7 +13,7 @@ with open(os.path.join(dir_path, "requirements.txt"), "r", encoding="utf-8") as 
 
 
 setup(
-    name="binder_trace",
+    name="my-binder-trace",
     install_requires=required,
     packages=find_packages(),
     include_package_data=True,
