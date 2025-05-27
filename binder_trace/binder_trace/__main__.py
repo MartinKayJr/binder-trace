@@ -24,9 +24,9 @@ def setupArgParser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Connects to a Android device with a "
-        "frida server running and extracts and "
-        "parses the data passed across the Binder "
-        "interface."
+                    "frida server running and extracts and "
+                    "parses the data passed across the Binder "
+                    "interface."
     )
 
     group = parser.add_mutually_exclusive_group(required=True)
