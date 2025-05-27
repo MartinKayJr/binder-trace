@@ -24,7 +24,7 @@ class FridaInjector:
     SCRIPT_FILE = os.path.join(os.path.dirname(__file__), "js/interceptbinder.js")
 
     def __init__(
-        self, process_identifier: str, struct_path: str, android_version: int, device_name: str, spawn_process: bool
+        self, process_identifier: str, struct_path: str, android_version: int, device_name: str, spawn_process: bool, port: int = None
     ):
         """Initialise FridaInjector.
 
@@ -33,9 +33,11 @@ class FridaInjector:
         :param android_version: Version of android
         :param device_name: Device or emulator name
         :param spawn_process: Should process be spawned?
+        :param port: Custom port for Frida server (optional)
         """
         self.process_identifier = process_identifier
         self.android_version = android_version
+        self.port = port  # 添加端口参数
         self._stop_event = threading.Event()
         self._handler_process = None
         self.spawn_process = spawn_process
@@ -50,8 +52,13 @@ class FridaInjector:
         with open(os.path.normpath(self.SCRIPT_FILE)) as f:
             self.script_content = f.read()
 
+        # 修改设备连接逻辑
         if device_name:
             self.device = frida.get_device(device_name)
+        elif self.port:
+            # 如果指定了端口，连接到指定端口的远程设备
+            self.device = frida.get_device_manager().add_remote_device(f"127.0.0.1:{self.port}")
+            log.info(f"Connecting to Frida server on port {self.port}")
         else:
             self.device = frida.get_usb_device()
 

@@ -41,6 +41,14 @@ def setupArgParser() -> argparse.ArgumentParser:
         help="the android device to attach to",
     )
 
+    # 添加端口参数
+    parser.add_argument(
+        "--port",
+        dest="port",
+        type=int,
+        help="Custom port for Frida server (default: 27042)",
+    )
+
     parser.add_argument(
         "-a",
         "--android-version",
@@ -94,7 +102,15 @@ def main():
     config = None
     injector = None
     try:
-        injector = FridaInjector(args.pid or args.name, struct_path, int(args.android_version), args.device, args.spawn)
+        # 传递端口参数给 FridaInjector
+        injector = FridaInjector(
+            args.pid or args.name,
+            struct_path,
+            int(args.android_version),
+            args.device,
+            args.spawn,
+            args.port  # 添加端口参数
+        )
         injector.start()
         binder_trace.tui.interface.start_ui(injector.block_queue, injector.pause_unpause, config, args.config)
         log.info("UI Stopped")
