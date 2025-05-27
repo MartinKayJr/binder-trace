@@ -24,9 +24,9 @@ def setupArgParser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="Connects to a Android device with a "
-                    "frida server running and extracts and "
-                    "parses the data passed across the Binder "
-                    "interface."
+        "frida server running and extracts and "
+        "parses the data passed across the Binder "
+        "interface."
     )
 
     group = parser.add_mutually_exclusive_group(required=True)
@@ -109,7 +109,7 @@ def main():
             int(args.android_version),
             args.device,
             args.spawn,
-            args.port  # 添加端口参数
+            args.port,  # 添加端口参数
         )
         injector.start()
         binder_trace.tui.interface.start_ui(injector.block_queue, injector.pause_unpause, config, args.config)
