@@ -109,7 +109,7 @@ def main():
             int(args.android_version),
             args.device,
             args.spawn,
-            args.port,  # 添加端口参数
+            args.port,
         )
         injector.start()
         binder_trace.tui.interface.start_ui(injector.block_queue, injector.pause_unpause, config, args.config)
