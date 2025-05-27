@@ -26,7 +26,7 @@ You'll need a rooted Android device or emulator.
     > `sudo apt-get install xsel`
 
 * Install from PyPi 
-    > `pip install binder-trace`
+    > `pip install my-binder-trace`
 
 * Check which version of frida is installed (make sure you've pip installed the requirements)
     > `pip list | grep frida`
@@ -75,6 +75,29 @@ emulator-5554   device
 
 > cd binder_trace
 > binder-trace -d emulator-5554 -n Messaging -a 11
+```
+
+
+if you want to custom frida server port, you can use the `--port` argument to specify the port frida-server will listen on. For example, if you want to use port 8889:
+```
+> adb devices
+List of devices attached
+emulator-114514   device
+
+> adb -s emulator-114514 shell
+> ./data/local/tmp/frida-server -l 0.0.0.0:8889
+
+> adb -s emulator-114514 forward tcp:8889 tcp:8889
+
+> frida-ps -Ua
+ PID  Name           Identifier
+----  -------------  ----------------------------
+8334  Messaging      com.android.messaging
+7941  Phone          com.android.dialer
+9607  Settings       com.android.settings
+
+> cd binder_trace
+> binder-trace --port 8889 -n Messaging -a 11
 ```
 
 # ⌨️ Controls
