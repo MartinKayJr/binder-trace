@@ -52,11 +52,9 @@ class FridaInjector:
         with open(os.path.normpath(self.SCRIPT_FILE)) as f:
             self.script_content = f.read()
 
-        # 修改设备连接逻辑
         if device_name:
             self.device = frida.get_device(device_name)
         elif self.port:
-            # 如果指定了端口，连接到指定端口的远程设备
             self.device = frida.get_device_manager().add_remote_device(f"127.0.0.1:{self.port}")
             log.info(f"Connecting to Frida server on port {self.port}")
         else:
